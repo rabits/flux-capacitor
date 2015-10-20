@@ -1,5 +1,7 @@
 #include <pebble.h>
 
+#define KEY_ANIMATION 0
+
 static Window *s_main_window;
 
 static BitmapLayer *s_background_layer;
@@ -25,6 +27,18 @@ static TextLayer *s_ptime_layer_m;
 static TextLayer *s_btime_layer_h;
 static TextLayer *s_btime_layer_m;
 
+static void inbox_received_handler(DictionaryIterator *iter, void *context) {
+    // Animation
+    Tuple *animation_t = dict_find(iter, KEY_ANIMATION);
+    if( animation_t ) {
+        // Apply animation
+        int animation = animation_t->value->int32;
+
+        // Persist values
+        persist_write_int(KEY_ANIMATION, animation);
+    }
+}
+
 static void loadForegroundImage(uint8_t resource)
 {
     if( s_foreground_bitmap )
@@ -37,6 +51,8 @@ static void loadForegroundImage(uint8_t resource)
 static void update_foreground(struct tm *tick_time)
 {
     time_t unixtime = mktime(tick_time);
+    if( persist_read_int(KEY_ANIMATION) == 1 )
+        unixtime /= 60;
     if( unixtime % 2 )
         loadForegroundImage(RESOURCE_ID_FOREGROUND_100_O);
     else
@@ -142,7 +158,7 @@ static void main_window_load(Window *window)
     // Get a tm structure
     time_t temp = time(NULL); 
     struct tm *tick_time = localtime(&temp);
-
+    
     update_date(tick_time);
     update_time(tick_time);
 }
@@ -178,7 +194,7 @@ static void main_window_unload(Window *window)
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed)
 {
-    if( units_changed & SECOND_UNIT )
+    if( persist_read_int(KEY_ANIMATION) > 0 )
         update_foreground(tick_time);
 
     if( units_changed & MINUTE_UNIT )
@@ -201,6 +217,9 @@ static void init()
 
     // Show the Window on the watch, with animated=true
     window_stack_push(s_main_window, true);
+
+    app_message_register_inbox_received(inbox_received_handler);
+    app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
 
     // Register with TickTimerService
     tick_timer_service_subscribe(SECOND_UNIT, tick_handler);

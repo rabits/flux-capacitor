@@ -1,11 +1,23 @@
 {
-    "appKeys": {},
-    "capabilities": [
-        ""
-    ],
-    "companyName": "Rabit",
+    "shortName": "Flux Capacitor",
     "longName": "Flux Capacitor",
+    "companyName": "Rabit",
+    "versionLabel": "1.1",
+    "sdkVersion": "3",
     "projectType": "native",
+    "uuid": "cc9bef06-71fb-4075-bd0f-3f1b8923c6db",
+    "watchapp": {
+        "watchface": true
+    },
+    "targetPlatforms": [
+        "basalt"
+    ],
+    "capabilities": [
+        "configurable"
+    ],
+    "appKeys": {
+        "KEY_ANIMATION": 0
+    },
     "resources": {
         "media": [
             {
@@ -66,15 +78,5 @@
                 ]
             }
         ]
-    },
-    "sdkVersion": "3",
-    "shortName": "Flux Capacitor",
-    "targetPlatforms": [
-        "basalt"
-    ],
-    "uuid": "cc9bef06-71fb-4075-bd0f-3f1b8923c6db",
-    "versionLabel": "1.0",
-    "watchapp": {
-        "watchface": true
     }
 }

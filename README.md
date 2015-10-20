@@ -17,10 +17,10 @@ Features
 * Shows present time & destination time
 * Looks nice!))
 * Flux animation
+* Settings: animation every second/minute/off
 
 TODO
 ----
-* Settings: animation every second/minute/off
 * Settings: destination time
 * Show battery charge
 * Alarm on destination time reached
