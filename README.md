@@ -3,7 +3,7 @@ Flux Capacitor
 
 Watchface for Pebble Time.
 
-![Look at that](https://github.com/rabits/flux-capacitor/raw/master/watchface.png)
+![Look at that](https://github.com/rabits/flux-capacitor/raw/master/watchface.gif)
 
 About
 -----
