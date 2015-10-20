@@ -3,6 +3,8 @@ Flux Capacitor
 
 Watchface for Pebble Time.
 
+![Look at that](https://github.com/rabits/flux-capacitor/raw/master/watchface.png)
+
 About
 -----
 October 21, 2015 is getting closer with each passing second - a portable flux capacitor will help you not to forget about that!
