@@ -16,13 +16,14 @@ Features
 --------
 * Shows present time & destination time
 * Looks nice!))
+* Flux animation
 
 TODO
 ----
-* Flux animation
+* Settings: animation every second/minute/off
+* Settings: destination time
 * Show battery charge
 * Alarm on destination time reached
-* Settings: destination time, animation every second/minute/off
 * Make travel to destination time on shake
 
 Support

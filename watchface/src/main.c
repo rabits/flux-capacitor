@@ -3,7 +3,9 @@
 static Window *s_main_window;
 
 static BitmapLayer *s_background_layer;
-static GBitmap *s_background_bitmap_f;
+static BitmapLayer *s_foreground_layer;
+static GBitmap *s_background_bitmap;
+static GBitmap *s_foreground_bitmap;
 
 static GFont s_time_font_small;
 static GFont s_time_font_big;
@@ -22,6 +24,24 @@ static TextLayer *s_ptime_layer_m;
 
 static TextLayer *s_btime_layer_h;
 static TextLayer *s_btime_layer_m;
+
+static void loadForegroundImage(uint8_t resource)
+{
+    if( s_foreground_bitmap )
+        gbitmap_destroy(s_foreground_bitmap);
+    s_foreground_bitmap = gbitmap_create_with_resource(resource);
+    bitmap_layer_set_bitmap(s_foreground_layer, s_foreground_bitmap);
+    layer_mark_dirty(bitmap_layer_get_layer(s_foreground_layer));
+}
+
+static void update_foreground(struct tm *tick_time)
+{
+    time_t unixtime = mktime(tick_time);
+    if( unixtime % 2 )
+        loadForegroundImage(RESOURCE_ID_FOREGROUND_100_O);
+    else
+        loadForegroundImage(RESOURCE_ID_FOREGROUND_100_E);
+}
 
 static void update_date(struct tm *tick_time)
 {
@@ -76,10 +96,17 @@ static TextLayer* new_text_layer(int x, int y, int w, int h, GColor color)
 static void main_window_load(Window *window)
 {
     // Create GBitmap, then set to created BitmapLayer
-    s_background_bitmap_f = gbitmap_create_with_resource(RESOURCE_ID_BACKGROUND_100_F);
+    s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_BACKGROUND);
+    s_foreground_bitmap = gbitmap_create_with_resource(RESOURCE_ID_FOREGROUND_100_F);
+
     s_background_layer = bitmap_layer_create(GRect(0, 0, 144, 168));
-    bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap_f);
     layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_background_layer));
+    bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
+
+    s_foreground_layer = bitmap_layer_create(GRect(0, 0, 144, 168));
+    bitmap_layer_set_compositing_mode(s_foreground_layer, GCompOpSet);
+    layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_foreground_layer));
+    bitmap_layer_set_bitmap(s_foreground_layer, s_foreground_bitmap);
 
     // Create mini GFont
     s_time_font_small = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_DIGITALREADOUT_16));
@@ -140,17 +167,25 @@ static void main_window_unload(Window *window)
     // Unload GFont
     fonts_unload_custom_font(s_time_font_small);
 
-    // Destroy GBitmap
-    gbitmap_destroy(s_background_bitmap_f);
+    // Destroy GBitmaps
+    gbitmap_destroy(s_foreground_bitmap);
+    gbitmap_destroy(s_background_bitmap);
 
     // Destroy BitmapLayer
+    bitmap_layer_destroy(s_foreground_layer);
     bitmap_layer_destroy(s_background_layer);
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed)
 {
-    update_time(tick_time);
-    update_date(tick_time);
+    if( units_changed & SECOND_UNIT )
+        update_foreground(tick_time);
+
+    if( units_changed & MINUTE_UNIT )
+        update_time(tick_time);
+
+    if( units_changed & DAY_UNIT )
+        update_date(tick_time);
 }
 
 static void init()
@@ -168,7 +203,7 @@ static void init()
     window_stack_push(s_main_window, true);
 
     // Register with TickTimerService
-    tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+    tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
 }
 
 static void deinit()

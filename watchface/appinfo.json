@@ -10,8 +10,32 @@
         "media": [
             {
                 "type": "png",
-                "name": "BACKGROUND_100_F",
-                "file": "images/background_100_f.png",
+                "name": "BACKGROUND",
+                "file": "images/background.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_100_F",
+                "file": "images/foreground_100_f.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_100_O",
+                "file": "images/foreground_100_o.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_100_E",
+                "file": "images/foreground_100_e.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
