@@ -6,23 +6,24 @@ Pebble.addEventListener('ready',
 
 Pebble.addEventListener('showConfiguration', function(e) {
     // Show config page
-    Pebble.openURL('http://rabits.org/pebble/flux-capacitor/configuration.html');
+    Pebble.openURL('https://rabits.org/pebble/flux-capacitor/configuration_12.html?_=' + new Date().getTime());
 });
 
 Pebble.addEventListener('webviewclosed', function(e) {
-  // Decode and parse config data as JSON
-  var config_data = JSON.parse(decodeURIComponent(e.response));
-  console.log('Config window returned: ', JSON.stringify(config_data));
+    // Decode and parse config data as JSON
+    var config_data = JSON.parse(decodeURIComponent(e.response));
+    console.log('Config window returned: ' + JSON.stringify(config_data));
 
-  // Prepare AppMessage payload
-  var dict = {
-    'KEY_ANIMATION': config_data['ANIMATION']
-  };
+    // Prepare AppMessage payload
+    var data = {
+        'KEY_ANIMATION': config_data['ANIMATION'],
+        'KEY_DESTINATION': config_data['DESTINATION']
+    };
 
-  // Send settings to Pebble watchapp
-  Pebble.sendAppMessage(dict, function(){
-    console.log('Sent config data to Pebble');  
-  }, function() {
-    console.log('Failed to send config data!');
-  });
+    // Send settings to Pebble watchapp
+    Pebble.sendAppMessage(data, function(){
+        console.log('Sent config data to Pebble ' + JSON.stringify(data));
+    }, function() {
+        console.log('Failed to send config data! ' + JSON.stringify(data));
+    });
 });

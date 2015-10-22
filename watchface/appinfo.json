@@ -2,7 +2,7 @@
     "shortName": "Flux Capacitor",
     "longName": "Flux Capacitor",
     "companyName": "Rabit",
-    "versionLabel": "1.1",
+    "versionLabel": "1.2",
     "sdkVersion": "3",
     "projectType": "native",
     "uuid": "cc9bef06-71fb-4075-bd0f-3f1b8923c6db",
@@ -16,7 +16,8 @@
         "configurable"
     ],
     "appKeys": {
-        "KEY_ANIMATION": 0
+        "KEY_ANIMATION": 0,
+        "KEY_DESTINATION": 1
     },
     "resources": {
         "media": [
