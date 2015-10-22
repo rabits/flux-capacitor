@@ -21,10 +21,10 @@ Features
 * Flux animation
 * Settings: animation every second/minute/off, destination time
 * Alarm on destination time reached (slow time machine)
+* Show the battery current charge / charge state
 
 TODO
 ----
-* Show battery charge
 * Make travel to destination time on shake
 
 Support

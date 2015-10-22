@@ -2,7 +2,7 @@
     "shortName": "Flux Capacitor",
     "longName": "Flux Capacitor",
     "companyName": "Rabit",
-    "versionLabel": "1.2",
+    "versionLabel": "1.3",
     "sdkVersion": "3",
     "projectType": "native",
     "uuid": "cc9bef06-71fb-4075-bd0f-3f1b8923c6db",
@@ -31,24 +31,240 @@
             },
             {
                 "type": "png",
-                "name": "FOREGROUND_100_F",
-                "file": "images/foreground_100_f.png",
+                "name": "FOREGROUND_10",
+                "file": "images/foreground_10.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
             },
             {
                 "type": "png",
-                "name": "FOREGROUND_100_O",
-                "file": "images/foreground_100_o.png",
+                "name": "FOREGROUND_20",
+                "file": "images/foreground_20.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
             },
             {
                 "type": "png",
-                "name": "FOREGROUND_100_E",
-                "file": "images/foreground_100_e.png",
+                "name": "FOREGROUND_30",
+                "file": "images/foreground_30.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_40",
+                "file": "images/foreground_40.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_50",
+                "file": "images/foreground_50.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_60",
+                "file": "images/foreground_60.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_70",
+                "file": "images/foreground_70.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_80",
+                "file": "images/foreground_80.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_90",
+                "file": "images/foreground_90.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_100",
+                "file": "images/foreground_100.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_O_10",
+                "file": "images/foreground_o_10.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_O_20",
+                "file": "images/foreground_o_20.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_O_30",
+                "file": "images/foreground_o_30.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_O_40",
+                "file": "images/foreground_o_40.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_O_50",
+                "file": "images/foreground_o_50.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_O_60",
+                "file": "images/foreground_o_60.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_O_70",
+                "file": "images/foreground_o_70.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_O_80",
+                "file": "images/foreground_o_80.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_O_90",
+                "file": "images/foreground_o_90.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_O_100",
+                "file": "images/foreground_o_100.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_E_10",
+                "file": "images/foreground_e_10.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_E_20",
+                "file": "images/foreground_e_20.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_E_30",
+                "file": "images/foreground_e_30.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_E_40",
+                "file": "images/foreground_e_40.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_E_50",
+                "file": "images/foreground_e_50.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_E_60",
+                "file": "images/foreground_e_60.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_E_70",
+                "file": "images/foreground_e_70.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_E_80",
+                "file": "images/foreground_e_80.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_E_90",
+                "file": "images/foreground_e_90.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "FOREGROUND_E_100",
+                "file": "images/foreground_e_100.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
