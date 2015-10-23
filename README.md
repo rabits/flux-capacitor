@@ -33,15 +33,16 @@ If you like Back to the Future, you can support my open-source development by a 
 
 Bitcoin wallet: `15phQNwkVs3fXxvxzBkhuhXA2xoKikPfUy`
 
-Developing
-----------
+Build
+-----
 You need to clone this git repository recursively:
 
 ```sh
 git clone --recursive https://github.com/rabits/flux-capacitor.git
 ```
 
-Download & unpack pebble sdk and toolchain into ~/local/pebble.
+Install gimp 2.8 and blender >= 2.75.
 
-Run ./build.sh in watchface folder.
+Download & unpack pebble sdk and toolchain into ~/local/pebble (follow instructions on the pebble sdk installation page).
 
+Run ./build.sh

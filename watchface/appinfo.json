@@ -24,7 +24,7 @@
             {
                 "type": "png",
                 "name": "BACKGROUND",
-                "file": "images/background.png",
+                "file": "images-gen/background.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -32,7 +32,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_10",
-                "file": "images/foreground_10.png",
+                "file": "images-gen/img_028.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -40,7 +40,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_20",
-                "file": "images/foreground_20.png",
+                "file": "images-gen/img_025.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -48,7 +48,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_30",
-                "file": "images/foreground_30.png",
+                "file": "images-gen/img_022.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -56,7 +56,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_40",
-                "file": "images/foreground_40.png",
+                "file": "images-gen/img_019.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -64,7 +64,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_50",
-                "file": "images/foreground_50.png",
+                "file": "images-gen/img_016.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -72,7 +72,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_60",
-                "file": "images/foreground_60.png",
+                "file": "images-gen/img_013.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -80,7 +80,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_70",
-                "file": "images/foreground_70.png",
+                "file": "images-gen/img_010.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -88,7 +88,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_80",
-                "file": "images/foreground_80.png",
+                "file": "images-gen/img_007.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -96,7 +96,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_90",
-                "file": "images/foreground_90.png",
+                "file": "images-gen/img_004.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -104,7 +104,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_100",
-                "file": "images/foreground_100.png",
+                "file": "images-gen/img_001.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -112,7 +112,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_O_10",
-                "file": "images/foreground_o_10.png",
+                "file": "images-gen/img_029.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -120,7 +120,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_O_20",
-                "file": "images/foreground_o_20.png",
+                "file": "images-gen/img_026.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -128,7 +128,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_O_30",
-                "file": "images/foreground_o_30.png",
+                "file": "images-gen/img_023.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -136,7 +136,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_O_40",
-                "file": "images/foreground_o_40.png",
+                "file": "images-gen/img_020.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -144,7 +144,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_O_50",
-                "file": "images/foreground_o_50.png",
+                "file": "images-gen/img_017.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -152,7 +152,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_O_60",
-                "file": "images/foreground_o_60.png",
+                "file": "images-gen/img_014.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -160,7 +160,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_O_70",
-                "file": "images/foreground_o_70.png",
+                "file": "images-gen/img_011.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -168,7 +168,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_O_80",
-                "file": "images/foreground_o_80.png",
+                "file": "images-gen/img_008.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -176,7 +176,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_O_90",
-                "file": "images/foreground_o_90.png",
+                "file": "images-gen/img_005.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -184,7 +184,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_O_100",
-                "file": "images/foreground_o_100.png",
+                "file": "images-gen/img_002.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -192,7 +192,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_E_10",
-                "file": "images/foreground_e_10.png",
+                "file": "images-gen/img_030.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -200,7 +200,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_E_20",
-                "file": "images/foreground_e_20.png",
+                "file": "images-gen/img_027.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -208,7 +208,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_E_30",
-                "file": "images/foreground_e_30.png",
+                "file": "images-gen/img_024.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -216,7 +216,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_E_40",
-                "file": "images/foreground_e_40.png",
+                "file": "images-gen/img_021.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -224,7 +224,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_E_50",
-                "file": "images/foreground_e_50.png",
+                "file": "images-gen/img_018.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -232,7 +232,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_E_60",
-                "file": "images/foreground_e_60.png",
+                "file": "images-gen/img_015.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -240,7 +240,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_E_70",
-                "file": "images/foreground_e_70.png",
+                "file": "images-gen/img_012.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -248,7 +248,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_E_80",
-                "file": "images/foreground_e_80.png",
+                "file": "images-gen/img_009.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -256,7 +256,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_E_90",
-                "file": "images/foreground_e_90.png",
+                "file": "images-gen/img_006.png",
                 "targetPlatforms": [
                     "basalt"
                 ]
@@ -264,7 +264,7 @@
             {
                 "type": "png",
                 "name": "FOREGROUND_E_100",
-                "file": "images/foreground_e_100.png",
+                "file": "images-gen/img_003.png",
                 "targetPlatforms": [
                     "basalt"
                 ]

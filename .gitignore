@@ -1,2 +1,5 @@
+render/*
+watchface/resources/images-gen/*
 watchface/build
 watchface/.lock-*
+*.pyc
