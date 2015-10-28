@@ -6,7 +6,7 @@ Pebble.addEventListener('ready',
 
 Pebble.addEventListener('showConfiguration', function(e) {
     // Show config page
-    Pebble.openURL('https://rabits.org/pebble/flux-capacitor/configuration_12.html?_=' + new Date().getTime());
+    Pebble.openURL('https://rabits.org/pebble/flux-capacitor/configuration_14.html?_=' + new Date().getTime());
 });
 
 Pebble.addEventListener('webviewclosed', function(e) {
@@ -17,7 +17,8 @@ Pebble.addEventListener('webviewclosed', function(e) {
     // Prepare AppMessage payload
     var data = {
         'KEY_ANIMATION': config_data['ANIMATION'],
-        'KEY_DESTINATION': config_data['DESTINATION']
+        'KEY_DESTINATION': config_data['DESTINATION'],
+        'KEY_TIMEMACHINE': config_data['TIMEMACHINE']
     };
 
     // Send settings to Pebble watchapp

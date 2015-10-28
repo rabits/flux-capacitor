@@ -2,7 +2,7 @@
     "shortName": "Flux Capacitor",
     "longName": "Flux Capacitor",
     "companyName": "Rabit",
-    "versionLabel": "1.3",
+    "versionLabel": "1.4",
     "sdkVersion": "3",
     "projectType": "native",
     "uuid": "cc9bef06-71fb-4075-bd0f-3f1b8923c6db",
@@ -17,12 +17,13 @@
     ],
     "appKeys": {
         "KEY_ANIMATION": 0,
-        "KEY_DESTINATION": 1
+        "KEY_DESTINATION": 1,
+        "KEY_TIMEMACHINE": 2
     },
     "resources": {
         "media": [
             {
-                "type": "png",
+                "type": "pbi8",
                 "name": "BACKGROUND",
                 "file": "images-gen/background.png",
                 "targetPlatforms": [
@@ -265,6 +266,158 @@
                 "type": "png",
                 "name": "FOREGROUND_E_100",
                 "file": "images-gen/img_003.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "LIGHTNING_S_T_1",
+                "file": "images-gen/img_032.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "LIGHTNING_S_T_2",
+                "file": "images-gen/img_033.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "LIGHTNING_S_T_3",
+                "file": "images-gen/img_034.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "LIGHTNING_S_R_1",
+                "file": "images-gen/img_035.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "LIGHTNING_S_R_2",
+                "file": "images-gen/img_036.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "LIGHTNING_S_R_3",
+                "file": "images-gen/img_037.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "LIGHTNING_S_R_4",
+                "file": "images-gen/img_038.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "LIGHTNING_S_L_1",
+                "file": "images-gen/img_039.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "LIGHTNING_S_L_2",
+                "file": "images-gen/img_040.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "LIGHTNING_S_L_3",
+                "file": "images-gen/img_041.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "LIGHTNING_S_L_4",
+                "file": "images-gen/img_042.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "LIGHTNING_M_1",
+                "file": "images-gen/img_043.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "LIGHTNING_M_2",
+                "file": "images-gen/img_044.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "LIGHTNING_M_3",
+                "file": "images-gen/img_045.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "png",
+                "name": "LIGHTNING_M_4",
+                "file": "images-gen/img_046.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "pbi8",
+                "name": "LIGHTNING_B_1",
+                "file": "images-gen/img_047.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "pbi8",
+                "name": "LIGHTNING_B_2",
+                "file": "images-gen/img_048.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "pbi8",
+                "name": "LIGHTNING_B_3",
+                "file": "images-gen/img_049.png",
+                "targetPlatforms": [
+                    "basalt"
+                ]
+            },
+            {
+                "type": "pbi8",
+                "name": "LIGHTNING_B_4",
+                "file": "images-gen/img_050.png",
                 "targetPlatforms": [
                     "basalt"
                 ]

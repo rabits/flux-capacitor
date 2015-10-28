@@ -1,46 +1,13 @@
-#include <pebble.h>
+#include "main.h"
+#include "config.h"
+#include "animation.h"
 
-#define KEY_ANIMATION 0
-#define KEY_DESTINATION 1
+static time_t s_current_time = 0;
+static time_t s_present_time = 0;
+static int32_t s_destination_time = 0;
+static int32_t s_current_time_offset = 0;
 
 static Window *s_main_window;
-
-static const uint8_t s_foregrounds[] = {
-    RESOURCE_ID_FOREGROUND_10,
-    RESOURCE_ID_FOREGROUND_20,
-    RESOURCE_ID_FOREGROUND_30,
-    RESOURCE_ID_FOREGROUND_40,
-    RESOURCE_ID_FOREGROUND_50,
-    RESOURCE_ID_FOREGROUND_60,
-    RESOURCE_ID_FOREGROUND_70,
-    RESOURCE_ID_FOREGROUND_80,
-    RESOURCE_ID_FOREGROUND_90,
-    RESOURCE_ID_FOREGROUND_100
-};
-static const uint8_t s_foregrounds_odd[] = {
-    RESOURCE_ID_FOREGROUND_O_10,
-    RESOURCE_ID_FOREGROUND_O_20,
-    RESOURCE_ID_FOREGROUND_O_30,
-    RESOURCE_ID_FOREGROUND_O_40,
-    RESOURCE_ID_FOREGROUND_O_50,
-    RESOURCE_ID_FOREGROUND_O_60,
-    RESOURCE_ID_FOREGROUND_O_70,
-    RESOURCE_ID_FOREGROUND_O_80,
-    RESOURCE_ID_FOREGROUND_O_90,
-    RESOURCE_ID_FOREGROUND_O_100
-};
-static const uint8_t s_foregrounds_even[] = {
-    RESOURCE_ID_FOREGROUND_E_10,
-    RESOURCE_ID_FOREGROUND_E_20,
-    RESOURCE_ID_FOREGROUND_E_30,
-    RESOURCE_ID_FOREGROUND_E_40,
-    RESOURCE_ID_FOREGROUND_E_50,
-    RESOURCE_ID_FOREGROUND_E_60,
-    RESOURCE_ID_FOREGROUND_E_70,
-    RESOURCE_ID_FOREGROUND_E_80,
-    RESOURCE_ID_FOREGROUND_E_90,
-    RESOURCE_ID_FOREGROUND_E_100
-};
 
 static BitmapLayer *s_background_layer;
 static BitmapLayer *s_foreground_layer;
@@ -58,6 +25,7 @@ static TextLayer *s_dtime_layer_m;
 
 static TextLayer *s_dtime_layer_arrived_1;
 static TextLayer *s_dtime_layer_arrived_2;
+static TextLayer *s_dtime_layer_outatime;
 
 static TextLayer *s_ptime_layer_M;
 static TextLayer *s_ptime_layer_D;
@@ -68,10 +36,51 @@ static TextLayer *s_ptime_layer_m;
 static TextLayer *s_btime_layer_h;
 static TextLayer *s_btime_layer_m;
 
-static void updateDdate()
+void setTime(TimeUnits units_changed)
 {
-    int32_t dtime = persist_read_int(KEY_DESTINATION);
-    struct tm *tick_time = localtime(&dtime);
+    s_current_time = time(NULL);
+    s_present_time = s_current_time - s_current_time_offset;
+
+    if( s_current_time_offset != 0 ) {
+        s_destination_time = s_current_time;
+        if( units_changed & MINUTE_UNIT )
+            updateDdate();
+    }
+}
+
+void switchTimeOffset()
+{
+    if( s_current_time_offset != 0 )
+        setTimeOffset(0, true);
+    else {
+        time_t offset_time = time(NULL) - (time(NULL) % 60) - s_destination_time;
+        setTimeOffset(offset_time, true);
+    }
+}
+
+void setTimeOffset(int32_t offset, bool update)
+{
+    if( offset == 0 )
+        s_destination_time = persist_read_int(KEY_DESTINATION);
+
+    s_current_time_offset = offset;
+
+    if( update ) {
+        layer_set_hidden(text_layer_get_layer(s_dtime_layer_outatime), offset == 0 );
+        updateDdate();
+        tickHandler(NULL, MINUTE_UNIT | DAY_UNIT);
+    }
+}
+
+void setBigTimeHidden(bool hidden)
+{
+    layer_set_hidden(text_layer_get_layer(s_btime_layer_h), hidden );
+    layer_set_hidden(text_layer_get_layer(s_btime_layer_m), hidden );
+}
+
+void updateDdate()
+{
+    struct tm *tick_time = localtime(&s_destination_time);
 
     // Create long-live text buffer
     static char dbuffer_M[] = "###";
@@ -81,7 +90,7 @@ static void updateDdate()
     static char dbuffer_m[] = "00";
 
     // Write the current hours into the buffer
-    if(clock_is_24h_style() == true)
+    if( clock_is_24h_style() == true )
         strftime(dbuffer_h, sizeof("00"), "%H", tick_time);
     else
         strftime(dbuffer_h, sizeof("00"), "%I", tick_time);
@@ -105,10 +114,9 @@ static void updateDdate()
     layer_set_hidden(text_layer_get_layer(s_dtime_layer_arrived_2), true );
 }
 
-static void updatePdate()
+void updatePdate()
 {
-    time_t temp = time(NULL);
-    struct tm *tick_time = localtime(&temp);
+    struct tm *tick_time = localtime(&s_present_time);
 
     // Create long-live text buffer
     static char buffer_M[] = "###";
@@ -126,10 +134,9 @@ static void updatePdate()
     text_layer_set_text(s_ptime_layer_Y, buffer_Y);
 }
 
-static void updatePtime()
+void updatePtime()
 {
-    time_t temp = time(NULL);
-    struct tm *tick_time = localtime(&temp);
+    struct tm *tick_time = localtime(&s_present_time);
 
     // Create long-live text buffer
     static char buffer_h[] = "00";
@@ -150,39 +157,9 @@ static void updatePtime()
     text_layer_set_text(s_btime_layer_m, buffer_m);
 }
 
-static void inboxReceivedHandler(DictionaryIterator *iter, void *context)
+void loadForegroundImage(uint8_t resource)
 {
-    Tuple *value_t = NULL;
-
-    // Animation
-    value_t = dict_find(iter, KEY_ANIMATION);
-    if( value_t ) {
-        // Apply
-        uint32_t animation = value_t->value->int32;
-        persist_write_int(KEY_ANIMATION, animation);
-    }
-
-    // Destination date
-    value_t = dict_find(iter, KEY_DESTINATION);
-    if( value_t ) {
-        // Apply
-        time_t destination = value_t->value->int32;
-        persist_write_int(KEY_DESTINATION, destination);
-
-        // Set destination date
-        updateDdate();
-    }
-}
-
-void inboxDroppedHandler(AppMessageResult reason, void *context)
-{
-    // Incoming message dropped
-    app_log(APP_LOG_LEVEL_DEBUG, __FILE__, __LINE__, "AppMessage Dropped: %d", reason);
-}
-
-static void loadForegroundImage(uint8_t resource)
-{
-    static uint8_t last_foreground_image = 0;
+    static uint8_t last_foreground_image = RESOURCE_ID_FOREGROUND_100;
 
     if( resource != last_foreground_image ) {
         if( s_foreground_bitmap )
@@ -195,67 +172,38 @@ static void loadForegroundImage(uint8_t resource)
     }
 }
 
-static void updateForeground()
+void loadBackgroundImage(uint8_t resource)
 {
-    time_t temp = time(NULL);
-    struct tm *tick_time = localtime(&temp);
+    static uint8_t last_background_image = RESOURCE_ID_BACKGROUND;
 
-    BatteryChargeState charge_state = battery_state_service_peek();
-    uint8_t current_percent = charge_state.charge_percent;
-    if( charge_state.is_charging ) {
-        static uint8_t last_percent = 2;
-        if( last_percent > 8 )
-            last_percent = 2;
-        current_percent = ++last_percent;
-    } else {
-        current_percent = current_percent > 99 ? 9 : current_percent / 10;
+    if( resource != last_background_image ) {
+        if( s_background_bitmap )
+            gbitmap_destroy(s_background_bitmap);
+
+        s_background_bitmap = gbitmap_create_with_resource(resource);
+        bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
+        layer_mark_dirty(bitmap_layer_get_layer(s_background_layer));
+        last_background_image = resource;
     }
-
-    if( persist_read_int(KEY_ANIMATION) > 0 ) {
-        time_t unixtime = mktime(tick_time);
-        if( persist_read_int(KEY_ANIMATION) == 1 )
-            unixtime /= 60;
-        if( unixtime % 2 )
-            loadForegroundImage(s_foregrounds_odd[current_percent]);
-        else
-            loadForegroundImage(s_foregrounds_even[current_percent]);
-    } else
-        loadForegroundImage(s_foregrounds[current_percent]);
 }
 
-static void checkDtime()
+void checkDtime()
 {
-    time_t temp = time(NULL);
-    struct tm *tick_time = localtime(&temp);
-
-    // Check destination time
-    time_t dtime = persist_read_int(KEY_DESTINATION);
-    time_t ptime = mktime(tick_time);
-    if( ptime > (dtime - 30 ) && ptime < (dtime + 90) ) {
-        bool hidden = ptime > (dtime + 30);
-        layer_set_hidden(text_layer_get_layer(s_dtime_layer_arrived_1), hidden );
-        layer_set_hidden(text_layer_get_layer(s_dtime_layer_arrived_2), hidden );
-        if( ! hidden ) {
-            static const uint32_t const segments[] = { 300, 100, 400, 100, 300, 100, 400, 100, 300 };
-            VibePattern pat = {
-              .durations = segments,
-              .num_segments = ARRAY_LENGTH(segments),
-            };
-            vibes_enqueue_custom_pattern(pat);
+    if( persist_read_int(KEY_TIMEMACHINE) > 0 ) {
+        int32_t dtime = persist_read_int(KEY_DESTINATION);
+        if( s_present_time > (dtime - 30 ) && s_present_time < (dtime + 90) ) {
+            bool hidden = s_present_time > (dtime + 30);
+            layer_set_hidden(text_layer_get_layer(s_dtime_layer_arrived_1), hidden );
+            layer_set_hidden(text_layer_get_layer(s_dtime_layer_arrived_2), hidden );
+            if( ! hidden ) {
+                static const uint32_t const segments[] = { 300, 100, 400, 100, 300, 100, 400, 100, 300 };
+                VibePattern pat = {
+                  .durations = segments,
+                  .num_segments = ARRAY_LENGTH(segments),
+                };
+                vibes_enqueue_custom_pattern(pat);
+            }
         }
-    }
-}
-
-static void tickHandler(struct tm *tick_time, TimeUnits units_changed)
-{
-    updateForeground();
-
-    if( units_changed & DAY_UNIT )
-        updatePdate();
-
-    if( units_changed & MINUTE_UNIT ) {
-        updatePtime();
-        checkDtime();
     }
 }
 
@@ -282,7 +230,7 @@ static void mainWindowLoad(Window *window)
     layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_background_layer));
     bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
 
-    s_foreground_layer = bitmap_layer_create(GRect(0, 0, 144, 168));
+    s_foreground_layer = bitmap_layer_create(GRect(26, 10, 92, 112));
     bitmap_layer_set_compositing_mode(s_foreground_layer, GCompOpSet);
     layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_foreground_layer));
     bitmap_layer_set_bitmap(s_foreground_layer, s_foreground_bitmap);
@@ -299,6 +247,10 @@ static void mainWindowLoad(Window *window)
     // Create destination time TextLayers
     s_dtime_layer_h = newTextLayer(94, 120, 14, 16, GColorRed, "16");
     s_dtime_layer_m = newTextLayer(112, 120, 14, 16, GColorRed, "29");
+
+    s_dtime_layer_outatime = newTextLayer(0, 12, 144, 16, GColorWhite, "OUTATIME");
+    text_layer_set_text_alignment(s_dtime_layer_outatime, GTextAlignmentCenter);
+    layer_set_hidden(text_layer_get_layer(s_dtime_layer_outatime), true );
 
     s_dtime_layer_arrived_2 = newTextLayer(0, 12, 144, 16, GColorWhite, "the destination time!");
     text_layer_set_background_color(s_dtime_layer_arrived_2, GColorDarkCandyAppleRed);
@@ -338,6 +290,7 @@ static void mainWindowUnload(Window *window)
     text_layer_destroy(s_ptime_layer_D);
     text_layer_destroy(s_ptime_layer_M);
 
+    text_layer_destroy(s_dtime_layer_outatime);
     text_layer_destroy(s_dtime_layer_arrived_1);
     text_layer_destroy(s_dtime_layer_arrived_2);
 
@@ -350,27 +303,25 @@ static void mainWindowUnload(Window *window)
     // Unload GFont
     fonts_unload_custom_font(s_time_font_small);
 
-    // Destroy GBitmaps
-    gbitmap_destroy(s_foreground_bitmap);
-    gbitmap_destroy(s_background_bitmap);
-
     // Destroy BitmapLayer
     bitmap_layer_destroy(s_foreground_layer);
     bitmap_layer_destroy(s_background_layer);
-}
 
-static void setDefaults()
-{
-    if( ! persist_exists(KEY_ANIMATION) )
-        persist_write_int(KEY_ANIMATION, 0); // No animation
-    if( ! persist_exists(KEY_DESTINATION) )
-        persist_write_int(KEY_DESTINATION, 1445470140); // 21 Oct 2015 16:29:00 GMT-7
+    // Destroy GBitmaps
+    gbitmap_destroy(s_foreground_bitmap);
+    gbitmap_destroy(s_background_bitmap);
 }
 
 static void init()
 {
     // Set defaults
-    setDefaults();
+    setConfigDefaults();
+
+    // Preseed random
+    srand(time(NULL));
+
+    // Set time offset
+    setTimeOffset(0, false);
 
     // Create main Window element and assign to pointer
     s_main_window = window_create();
@@ -390,6 +341,9 @@ static void init()
 
     // Register with TickTimerService
     tick_timer_service_subscribe(SECOND_UNIT, tickHandler);
+
+    // Register tap handler
+    accel_tap_service_subscribe(&tapHandler);
 }
 
 static void deinit()

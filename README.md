@@ -19,13 +19,15 @@ Features
 * Shows present time & destination time
 * Looks nice!))
 * Flux animation
-* Settings: animation every second/minute/off, destination time
 * Alarm on destination time reached (slow time machine)
 * Show the battery current charge / charge state
+* Instant traveling to the destination time on shake
+* Settings: animation every second/minute/off, destination time, time traveling
 
 TODO
 ----
-* Make travel to destination time on shake
+* Support int64_t time
+* AM/PM indicators show
 
 Support
 -------
