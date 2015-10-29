@@ -22,6 +22,8 @@ static TextLayer *s_dtime_layer_D;
 static TextLayer *s_dtime_layer_Y;
 static TextLayer *s_dtime_layer_h;
 static TextLayer *s_dtime_layer_m;
+static Layer *s_dtime_layer_apm;
+static bool s_dtime_pm;
 
 static TextLayer *s_dtime_layer_arrived_1;
 static TextLayer *s_dtime_layer_arrived_2;
@@ -32,6 +34,8 @@ static TextLayer *s_ptime_layer_D;
 static TextLayer *s_ptime_layer_Y;
 static TextLayer *s_ptime_layer_h;
 static TextLayer *s_ptime_layer_m;
+static Layer *s_ptime_layer_apm;
+static bool s_ptime_pm;
 
 static TextLayer *s_btime_layer_h;
 static TextLayer *s_btime_layer_m;
@@ -96,6 +100,11 @@ void updateDdate()
         strftime(dbuffer_h, sizeof("00"), "%I", tick_time);
     text_layer_set_text(s_dtime_layer_h, dbuffer_h);
 
+    if( s_dtime_pm != ((tick_time->tm_hour) > 11) ) {
+        s_dtime_pm = (tick_time->tm_hour) > 11;
+        layer_mark_dirty(s_dtime_layer_apm);
+    }
+
     // Write the current minutes into the buffer
     strftime(dbuffer_m, sizeof("00"), "%M", tick_time);
     text_layer_set_text(s_dtime_layer_m, dbuffer_m);
@@ -148,6 +157,11 @@ void updatePtime()
     else
         strftime(buffer_h, sizeof("00"), "%I", tick_time);
     text_layer_set_text(s_ptime_layer_h, buffer_h);
+
+    if( s_ptime_pm != ((tick_time->tm_hour) > 11) ) {
+        s_ptime_pm = (tick_time->tm_hour) > 11;
+        layer_mark_dirty(s_ptime_layer_apm);
+    }
 
     // Write the current minutes into the buffer
     strftime(buffer_m, sizeof("00"), "%M", tick_time);
@@ -220,6 +234,37 @@ static TextLayer* newTextLayer(int x, int y, int w, int h, GColor color, const c
     return layer;
 }
 
+static void ptimeApmDraw(Layer *layer, GContext *ctx)
+{
+    graphics_context_set_fill_color(ctx, GColorDarkGray);
+    graphics_fill_circle(ctx, GPoint(2, 2), 2);
+    graphics_fill_circle(ctx, GPoint(2, 7), 2);
+
+    graphics_context_set_fill_color(ctx, GColorYellow);
+    if( s_ptime_pm ) {
+        graphics_context_set_fill_color(ctx, GColorYellow);
+        graphics_fill_circle(ctx, GPoint(2, 2), 1);
+    } else {
+        graphics_context_set_fill_color(ctx, GColorRed);
+        graphics_fill_circle(ctx, GPoint(2, 7), 1);
+    }
+}
+
+static void dtimeApmDraw(Layer *layer, GContext *ctx)
+{
+    graphics_context_set_fill_color(ctx, GColorDarkGray);
+    graphics_fill_circle(ctx, GPoint(2, 2), 2);
+    graphics_fill_circle(ctx, GPoint(2, 7), 2);
+
+    if( s_dtime_pm ) {
+        graphics_context_set_fill_color(ctx, GColorYellow);
+        graphics_fill_circle(ctx, GPoint(2, 2), 1);
+    } else {
+        graphics_context_set_fill_color(ctx, GColorRed);
+        graphics_fill_circle(ctx, GPoint(2, 7), 1);
+    }
+}
+
 static void mainWindowLoad(Window *window)
 {
     // Create GBitmap, then set to created BitmapLayer
@@ -259,6 +304,11 @@ static void mainWindowLoad(Window *window)
     text_layer_set_background_color(s_dtime_layer_arrived_1, GColorDarkCandyAppleRed);
     text_layer_set_text_alignment(s_dtime_layer_arrived_1, GTextAlignmentCenter);
 
+    s_dtime_layer_apm = layer_create(GRect(90, 127, 5, 10));
+    layer_set_update_proc(s_dtime_layer_apm, dtimeApmDraw);
+    layer_add_child(window_get_root_layer(s_main_window), s_dtime_layer_apm);
+
+
     // Create date TextLayers
     s_ptime_layer_M = newTextLayer(15, 146, 23, 16, GColorGreen, "###");
     s_ptime_layer_D = newTextLayer(42, 146, 14, 16, GColorGreen, "00");
@@ -272,6 +322,10 @@ static void mainWindowLoad(Window *window)
     s_btime_layer_m = newTextLayer(75, 54, 30, 37, GColorWhite, "00");
     text_layer_set_font(s_btime_layer_m, s_time_font_big);
 
+    s_ptime_layer_apm = layer_create(GRect(91, 152, 5, 10));
+    layer_set_update_proc(s_ptime_layer_apm, ptimeApmDraw);
+    layer_add_child(window_get_root_layer(s_main_window), s_ptime_layer_apm);
+
     // Update graphics
     tickHandler(NULL, MINUTE_UNIT | DAY_UNIT);
 
@@ -284,6 +338,8 @@ static void mainWindowUnload(Window *window)
     // Destroy TextLayers
     text_layer_destroy(s_btime_layer_m);
     text_layer_destroy(s_btime_layer_h);
+
+    layer_destroy(s_ptime_layer_apm);
     text_layer_destroy(s_ptime_layer_m);
     text_layer_destroy(s_ptime_layer_h);
     text_layer_destroy(s_ptime_layer_Y);
@@ -294,6 +350,7 @@ static void mainWindowUnload(Window *window)
     text_layer_destroy(s_dtime_layer_arrived_1);
     text_layer_destroy(s_dtime_layer_arrived_2);
 
+    layer_destroy(s_dtime_layer_apm);
     text_layer_destroy(s_dtime_layer_m);
     text_layer_destroy(s_dtime_layer_h);
     text_layer_destroy(s_dtime_layer_Y);

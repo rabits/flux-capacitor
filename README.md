@@ -22,12 +22,12 @@ Features
 * Alarm on destination time reached (slow time machine)
 * Show the battery current charge / charge state
 * Instant traveling to the destination time on shake
+* Working PM indicators
 * Settings: animation every second/minute/off, destination time, time traveling
 
 TODO
 ----
-* Support int64_t time
-* AM/PM indicators show
+* Support int64_t to travel further in time
 
 Support
 -------
