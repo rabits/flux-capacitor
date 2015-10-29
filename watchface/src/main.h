@@ -7,7 +7,7 @@ void setTime(TimeUnits units_changed);
 
 void switchTimeOffset();
 
-void setTimeOffset(int32_t offset, bool update);
+void setTimeOffset(time_t offset, bool update);
 
 void setTimeSecondsHidden(bool hidden);
 

@@ -31,7 +31,7 @@
             <h3>General</h3>
 
             <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-              <legend>Animation:</legend>
+              <legend><b>Animation:</b></legend>
               <input name="key0" id="key0-0" value="0" checked="checked" type="radio">
               <label for="key0-0">None</label>
               <input name="key0" id="key0-1" value="1" type="radio">
@@ -47,13 +47,14 @@
             <h3>Time Traveler</h3>
 
             <fieldset data-role="controlgroup" data-mini="true">
-              <legend>Destination:</legend>
+              <legend><b>Destination:</b></legend>
               <input name="key1" id="key1-0" value="" data-role="datebox" data-options='{"mode":"datebox", "useFocus":true}' type="text">
               <input name="key1" id="key1-1" value="" data-role="datebox" data-options='{"mode":"timebox", "useFocus":true}' type="text">
             </fieldset>
+            <span>You can travel back to ~14 Dec 1901 and forward to ~18 Jan 2038 due to pebble platform limitations</span>
 
             <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-              <legend>Time Machine:</legend>
+              <legend><b>Time Machine:</b></legend>
               <input name="key2" id="key2-0" value="0" checked="checked" type="radio">
               <label for="key2-0">None</label>
               <input name="key2" id="key2-1" value="1" type="radio">
@@ -61,6 +62,7 @@
               <input name="key2" id="key2-2" value="2" type="radio">
               <label for="key2-2">Full-featured</label>
             </fieldset>
+            <span>To activate the full-featured time machine you need to shake your pebble for about 1-2 sec</span>
 
           </div>
         </div>
@@ -76,11 +78,15 @@
     </div>
     <script>
       function saveOptions() {
+        // Destination + seconds from 1900 to 1970
+        var dest = (Number( $("input[id=key1-0]").datebox('getTheDate') ) + Number( $("input[id=key1-1]").datebox('getTheDate') ))/1000 + 2208999600
+
         var options = {
           'ANIMATION':   Number( $("input[name=key0]:checked").val() ),
-          'DESTINATION': (Number( $("input[id=key1-0]").datebox('getTheDate') ) + Number( $("input[id=key1-1]").datebox('getTheDate') ))/1000 + 2208999600, // + seconds from 1900y to 1970
+          'DESTINATION': dest,
           'TIMEMACHINE': Number( $("input[name=key2]:checked").val() )
         }
+
         return options;
       }
       $().ready(function() {

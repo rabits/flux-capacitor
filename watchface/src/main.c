@@ -4,8 +4,8 @@
 
 static time_t s_current_time = 0;
 static time_t s_present_time = 0;
-static int32_t s_destination_time = 0;
-static int32_t s_current_time_offset = 0;
+static time_t s_destination_time = 0;
+static time_t s_current_time_offset = 0;
 
 static Window *s_main_window;
 
@@ -64,7 +64,7 @@ void switchTimeOffset()
     }
 }
 
-void setTimeOffset(int32_t offset, bool update)
+void setTimeOffset(time_t offset, bool update)
 {
     if( offset == 0 )
         s_destination_time = persist_read_int(KEY_DESTINATION);
@@ -214,7 +214,7 @@ void loadBackgroundImage(uint8_t resource)
 void checkDtime()
 {
     if( persist_read_int(KEY_TIMEMACHINE) > 0 ) {
-        int32_t dtime = persist_read_int(KEY_DESTINATION);
+        time_t dtime = persist_read_int(KEY_DESTINATION);
         if( s_present_time > (dtime - 30 ) && s_present_time < (dtime + 90) ) {
             bool hidden = s_present_time > (dtime + 30);
             layer_set_hidden(text_layer_get_layer(s_dtime_layer_arrived_1), hidden );

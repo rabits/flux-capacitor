@@ -14,10 +14,13 @@ Pebble.addEventListener('webviewclosed', function(e) {
     var config_data = JSON.parse(decodeURIComponent(e.response));
     console.log('Config window returned: ' + JSON.stringify(config_data));
 
+    // Pebble time int32 limitations
+    var dest = Math.max(-2147483648 + 3600*12, Math.min(2147483647 - 3600*12, config_data['DESTINATION']))
+
     // Prepare AppMessage payload
     var data = {
         'KEY_ANIMATION': config_data['ANIMATION'],
-        'KEY_DESTINATION': config_data['DESTINATION'],
+        'KEY_DESTINATION': dest,
         'KEY_TIMEMACHINE': config_data['TIMEMACHINE']
     };
 

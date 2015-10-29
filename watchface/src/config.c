@@ -27,7 +27,7 @@ void inboxReceivedHandler(DictionaryIterator *iter, void *context)
     value_t = dict_find(iter, KEY_DESTINATION);
     if( value_t ) {
         // Apply
-        int32_t destination = value_t->value->int32;
+        time_t destination = value_t->value->int32;
         persist_write_int(KEY_DESTINATION, destination);
 
         // Set destination date
