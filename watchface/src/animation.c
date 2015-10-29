@@ -78,8 +78,7 @@ static const uint8_t s_lighting_big[] = {
 
 void commonAnimationForeground()
 {
-    time_t temp = time(NULL);
-    struct tm *tick_time = localtime(&temp);
+    time_t unixtime = time(NULL);
 
     BatteryChargeState charge_state = battery_state_service_peek();
     uint8_t battery_state = (charge_state.charge_percent - 1) / 10;
@@ -87,16 +86,19 @@ void commonAnimationForeground()
     loadBackgroundImage(RESOURCE_ID_BACKGROUND);
 
     if( charge_state.is_charging ) {
-        static uint8_t last_state = 2;
-        if( last_state > 8 )
-            last_state = 2;
-        battery_state = ++last_state;
-        if( (! (rand() % 5)) )
+        static int last_state = 2;
+        battery_state = unixtime % 10;
+        if( battery_state < 2 )
+            battery_state = 2;
+        if( battery_state == 9 && last_state != 9 ) {
+            last_state = 9;
             startLightningAnimation(0);
+            return;
+        }
+        last_state = battery_state;
     }
 
     if( persist_read_int(KEY_ANIMATION) > 0 ) {
-        time_t unixtime = mktime(tick_time);
         if( persist_read_int(KEY_ANIMATION) == 1 )
             unixtime /= 60;
         if( unixtime % 2 )
