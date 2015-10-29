@@ -117,7 +117,7 @@ void cleanAnimation()
 
 void supersmallLightningAnimation(void *context)
 {
-    if( s_lightning_charge == 0 ) {
+    if( s_lightning_charge < 2 ) {
         if( s_lightning_animation < 5 ) {
             if( ! (rand() % 3) ) {
                 loadForegroundImage(s_lighting_small[rand() % S_LIGHTNING_SMALL_NUM]);
@@ -134,7 +134,7 @@ void supersmallLightningAnimation(void *context)
 
 void smallLightningAnimation(void *context)
 {
-    if( s_lightning_charge == 1 ) {
+    if( s_lightning_charge == 2 ) {
         if( s_lightning_animation < 30 ) {
             if( s_lightning_animation == 0 || (! (rand() % 3)) ) {
                 loadForegroundImage(s_lighting_small[rand() % S_LIGHTNING_SMALL_NUM]);
@@ -157,7 +157,7 @@ void smallLightningAnimation(void *context)
 
 void mediumLightningAnimation(void *context)
 {
-    if( s_lightning_charge == 2 ) {
+    if( s_lightning_charge == 3 ) {
         if( s_lightning_animation < 15 ) {
             if( s_lightning_animation == 0 || (! (rand() % 2)) ) {
                 loadForegroundImage(s_lighting_medium[rand() % S_LIGHTNING_MEDIUM_NUM]);
@@ -180,7 +180,7 @@ void mediumLightningAnimation(void *context)
 
 void bigLightningAnimation(void *context)
 {
-    if( s_lightning_charge == 3 ) {
+    if( s_lightning_charge == 4 ) {
         if( s_lightning_animation < 10 ) {
             loadForegroundImage(RESOURCE_ID_FOREGROUND_E_10);
             loadBackgroundImage(s_lighting_big[s_lightning_animation % S_LIGHTNING_BIG_NUM]);
@@ -207,7 +207,7 @@ void bigLightningAnimation(void *context)
 void startLightningAnimation(int lightning_charge)
 {
     // Do nothing if time travel in progress
-    if( s_lightning_charge == 3 )
+    if( s_lightning_charge == 4 )
         return;
 
     if( s_animation_timer ) {
@@ -215,20 +215,20 @@ void startLightningAnimation(int lightning_charge)
         cleanAnimation();
     }
 
-    if( persist_read_int(KEY_TIMEMACHINE) < 2 && lightning_charge == 3 )
-        lightning_charge = 2;
+    if( persist_read_int(KEY_TIMEMACHINE) < 2 && lightning_charge == 4 )
+        lightning_charge = 3;
 
     s_lightning_charge = lightning_charge;
     s_lightning_animation = 0;
 
     switch( lightning_charge ) {
-        case 1:
+        case 2:
             s_animation_timer = app_timer_register(1, smallLightningAnimation, NULL);
             break;
-        case 2:
+        case 3:
             s_animation_timer = app_timer_register(1, mediumLightningAnimation, NULL);
             break;
-        case 3:
+        case 4:
             setBigTimeHidden(true);
             s_animation_timer = app_timer_register(1, bigLightningAnimation, NULL);
             break;
@@ -244,29 +244,23 @@ void tapHandler(AccelAxisType axis, int32_t direction)
 
     int lightning_charge = s_lightning_charge;
 
-    if( axis == ACCEL_AXIS_X ) {
-        if( persist_read_int(KEY_ANIMATION) == 2 ) {
-            APP_LOG(APP_LOG_LEVEL_DEBUG, "Charging time machine");
+    if( persist_read_int(KEY_TIMEMACHINE) > 0 ) {
+        APP_LOG(APP_LOG_LEVEL_DEBUG, "Charging time machine");
 
-            time_t ctime = time(NULL);
+        time_t ctime = time(NULL);
 
-            if( lightning_charge > 3 )
-                lightning_charge = 0;
-            else if( lightning_last_time + 4 > ctime )
-                lightning_charge++;
-            else
-                lightning_charge = 0;
+        if( lightning_charge > 4 )
+            lightning_charge = 0;
+        else if( lightning_last_time + 3 > ctime )
+            lightning_charge++;
+        else
+            lightning_charge = 0;
 
-            lightning_last_time = ctime;
+        lightning_last_time = ctime;
 
-            startLightningAnimation(lightning_charge);
-            return;
-        }
+        startLightningAnimation(lightning_charge);
+        return;
     }
-
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "Lightning supersmall");
-    if( persist_read_int(KEY_ANIMATION) == 2 )
-        startLightningAnimation(0);
 }
 
 void tickHandler(struct tm *tick_time, TimeUnits units_changed)

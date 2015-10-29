@@ -343,7 +343,7 @@ static void init()
     tick_timer_service_subscribe(SECOND_UNIT, tickHandler);
 
     // Register tap handler
-    accel_tap_service_subscribe(&tapHandler);
+    accel_tap_service_subscribe(tapHandler);
 }
 
 static void deinit()
