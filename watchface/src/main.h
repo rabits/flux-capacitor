@@ -9,6 +9,8 @@ void switchTimeOffset();
 
 void setTimeOffset(int32_t offset, bool update);
 
+void setTimeSecondsHidden(bool hidden);
+
 void setBigTimeHidden(bool hidden);
 
 void loadForegroundImage(uint8_t resource);

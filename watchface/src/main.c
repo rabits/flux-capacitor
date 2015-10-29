@@ -22,6 +22,7 @@ static TextLayer *s_dtime_layer_D;
 static TextLayer *s_dtime_layer_Y;
 static TextLayer *s_dtime_layer_h;
 static TextLayer *s_dtime_layer_m;
+static Layer *s_dtime_layer_spoints;
 static Layer *s_dtime_layer_apm;
 static bool s_dtime_pm;
 
@@ -34,6 +35,7 @@ static TextLayer *s_ptime_layer_D;
 static TextLayer *s_ptime_layer_Y;
 static TextLayer *s_ptime_layer_h;
 static TextLayer *s_ptime_layer_m;
+static Layer *s_ptime_layer_spoints;
 static Layer *s_ptime_layer_apm;
 static bool s_ptime_pm;
 
@@ -76,8 +78,16 @@ void setTimeOffset(int32_t offset, bool update)
     }
 }
 
+void setTimeSecondsHidden(bool hidden)
+{
+    layer_set_hidden(s_ptime_layer_spoints, hidden );
+    if( s_current_time_offset != 0 )
+        layer_set_hidden(s_dtime_layer_spoints, hidden );
+}
+
 void setBigTimeHidden(bool hidden)
 {
+    layer_set_hidden(text_layer_get_layer(s_dtime_layer_outatime), true );
     layer_set_hidden(text_layer_get_layer(s_btime_layer_h), hidden );
     layer_set_hidden(text_layer_get_layer(s_btime_layer_m), hidden );
 }
@@ -234,6 +244,13 @@ static TextLayer* newTextLayer(int x, int y, int w, int h, GColor color, const c
     return layer;
 }
 
+static void timeSecondsDraw(Layer *layer, GContext *ctx)
+{
+    graphics_context_set_fill_color(ctx, GColorYellow);
+    graphics_fill_circle(ctx, GPoint(2, 2), 1);
+    graphics_fill_circle(ctx, GPoint(2, 7), 1);
+}
+
 static void ptimeApmDraw(Layer *layer, GContext *ctx)
 {
     graphics_context_set_fill_color(ctx, GColorDarkGray);
@@ -308,6 +325,10 @@ static void mainWindowLoad(Window *window)
     layer_set_update_proc(s_dtime_layer_apm, dtimeApmDraw);
     layer_add_child(window_get_root_layer(s_main_window), s_dtime_layer_apm);
 
+    s_dtime_layer_spoints = layer_create(GRect(108, 127, 5, 10));
+    layer_set_update_proc(s_dtime_layer_spoints, timeSecondsDraw);
+    layer_add_child(window_get_root_layer(s_main_window), s_dtime_layer_spoints);
+
 
     // Create date TextLayers
     s_ptime_layer_M = newTextLayer(15, 146, 23, 16, GColorGreen, "###");
@@ -326,6 +347,10 @@ static void mainWindowLoad(Window *window)
     layer_set_update_proc(s_ptime_layer_apm, ptimeApmDraw);
     layer_add_child(window_get_root_layer(s_main_window), s_ptime_layer_apm);
 
+    s_ptime_layer_spoints = layer_create(GRect(110, 152, 5, 10));
+    layer_set_update_proc(s_ptime_layer_spoints, timeSecondsDraw);
+    layer_add_child(window_get_root_layer(s_main_window), s_ptime_layer_spoints);
+
     // Update graphics
     tickHandler(NULL, MINUTE_UNIT | DAY_UNIT);
 
@@ -339,6 +364,7 @@ static void mainWindowUnload(Window *window)
     text_layer_destroy(s_btime_layer_m);
     text_layer_destroy(s_btime_layer_h);
 
+    layer_destroy(s_ptime_layer_spoints);
     layer_destroy(s_ptime_layer_apm);
     text_layer_destroy(s_ptime_layer_m);
     text_layer_destroy(s_ptime_layer_h);
@@ -350,6 +376,7 @@ static void mainWindowUnload(Window *window)
     text_layer_destroy(s_dtime_layer_arrived_1);
     text_layer_destroy(s_dtime_layer_arrived_2);
 
+    layer_destroy(s_dtime_layer_spoints);
     layer_destroy(s_dtime_layer_apm);
     text_layer_destroy(s_dtime_layer_m);
     text_layer_destroy(s_dtime_layer_h);

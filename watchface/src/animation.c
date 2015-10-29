@@ -79,11 +79,15 @@ static const uint8_t s_lighting_big[] = {
 void commonAnimationForeground()
 {
     time_t unixtime = time(NULL);
+    uint32_t animation = persist_read_int(KEY_ANIMATION);
 
     BatteryChargeState charge_state = battery_state_service_peek();
     uint8_t battery_state = (charge_state.charge_percent - 1) / 10;
 
     loadBackgroundImage(RESOURCE_ID_BACKGROUND);
+
+    if( animation > 1 )
+        setTimeSecondsHidden(unixtime % 2 == 1);
 
     if( charge_state.is_charging ) {
         static int last_state = 2;
@@ -98,8 +102,8 @@ void commonAnimationForeground()
         last_state = battery_state;
     }
 
-    if( persist_read_int(KEY_ANIMATION) > 0 ) {
-        if( persist_read_int(KEY_ANIMATION) == 1 )
+    if( animation > 0 ) {
+        if( animation == 1 )
             unixtime /= 60;
         if( unixtime % 2 )
             loadForegroundImage(s_foregrounds_odd[battery_state]);
@@ -197,8 +201,8 @@ void bigLightningAnimation(void *context)
         }
         else {
             cleanAnimation();
-            switchTimeOffset();
             setBigTimeHidden(false);
+            switchTimeOffset();
             s_lightning_charge = 0;
         }
     }
