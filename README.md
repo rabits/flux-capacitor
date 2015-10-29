@@ -3,15 +3,17 @@ Flux Capacitor
 
 Compact version of flux capacitor from Back to the Future trilogy for your Pebble Time.
 
-![Look at that](https://github.com/rabits/flux-capacitor/raw/master/watchface.gif)
+Normal|Charging|Low Battery|Travel in time
+------|--------|-----------|--------------
+![Normal](/watchface.gif)|![Charging](/watchface-charging.gif)|![Low battery](/watchface-low-battery.gif)|![Travel in time](/watchface-travel-in-time.gif)
 
 About
 -----
 October 21, 2015 already behind, but portable Flux Capacitor will help you not to forget about that!
 
-This working version of time machine can move you into the future.
+This working version of time machine can help you to travel in time.
 
-* Used great model of [DeLorean by Chris Kuhn](http://www.blendswap.com/blends/view/68371)
+* Used part of great [DeLorean model by Chris Kuhn](http://www.blendswap.com/blends/view/68371)
 * Font: SFDigitalReadout
 
 Features
