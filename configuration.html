@@ -51,7 +51,7 @@
               <input name="key1" id="key1-0" value="" data-role="datebox" data-options='{"mode":"datebox", "useFocus":true}' type="text">
               <input name="key1" id="key1-1" value="" data-role="datebox" data-options='{"mode":"timebox", "useFocus":true}' type="text">
             </fieldset>
-            <span>You can travel back to ~14 Dec 1901 and forward to ~18 Jan 2038 due to pebble platform limitations</span>
+            <span>You can travel back to ~01 Dec 0000 and forward to ~01 Jan 5000 due to pebble platform limitations</span>
 
             <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
               <legend><b>Time Machine:</b></legend>
@@ -62,7 +62,31 @@
               <input name="key2" id="key2-2" value="2" type="radio">
               <label for="key2-2">Full-featured</label>
             </fieldset>
-            <span>To activate the full-featured time machine you need to shake your pebble for about 1-2 sec</span>
+            <span>To activate the full-featured time machine you need to shake your pebble Time Machine Lock + 3 times</span>
+
+            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+              <legend><b>Time Machine Lock</b></legend>
+              <input name="key21" id="key21-0" value="0" checked="checked" type="radio">
+              <label for="key21-0">0</label>
+              <input name="key21" id="key21-1" value="1" type="radio">
+              <label for="key21-1">1</label>
+              <input name="key21" id="key21-2" value="2" type="radio">
+              <label for="key21-2">2</label>
+              <input name="key21" id="key21-3" value="3" type="radio">
+              <label for="key21-3">3</label>
+              <input name="key21" id="key21-4" value="4" type="radio">
+              <label for="key21-4">4</label>
+              <input name="key21" id="key21-5" value="5" type="radio">
+              <label for="key21-5">5</label>
+              <input name="key21" id="key21-6" value="6" type="radio">
+              <label for="key21-6">6</label>
+              <input name="key21" id="key21-7" value="7" type="radio">
+              <label for="key21-7">7</label>
+              <input name="key21" id="key21-8" value="8" type="radio">
+              <label for="key21-8">8</label>
+              <input name="key21" id="key21-9" value="9" type="radio">
+              <label for="key21-9">9</label>
+            </fieldset>
 
           </div>
         </div>
@@ -84,7 +108,8 @@
         var options = {
           'ANIMATION':   Number( $("input[name=key0]:checked").val() ),
           'DESTINATION': dest,
-          'TIMEMACHINE': Number( $("input[name=key2]:checked").val() )
+          'TIMEMACHINE': Number( $("input[name=key2]:checked").val() ),
+          'TIMEMACHINE_LOCK': Number( $("input[name=key21]:checked").val() )
         }
 
         return options;
@@ -103,6 +128,9 @@
 
             $("input[name=key2][id=key2-"+ls_pto["TIMEMACHINE"]+"]").prop('checked',true);
             $("input[name=key2]").checkboxradio('refresh');
+
+            $("input[name=key21][id=key21-"+ls_pto["TIMEMACHINE"]+"]").prop('checked',true);
+            $("input[name=key21]").checkboxradio('refresh');
           }
         }
         $("#b-cancel").click(function() {

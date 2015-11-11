@@ -25,4 +25,9 @@ void updatePtime();
 
 void checkDtime();
 
+// pivotal_gmtime lib
+typedef long long time64_t;
+time64_t mktime64(struct tm *t);
+struct tm *localtime64_r(const time64_t *t, struct tm *p);
+
 #endif // MAIN_H

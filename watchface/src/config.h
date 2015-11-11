@@ -3,7 +3,10 @@
 
 #define KEY_ANIMATION 0
 #define KEY_DESTINATION 1
+#define KEY_DESTINATION_USE64 11
+#define KEY_DESTINATION_H 12
 #define KEY_TIMEMACHINE 2
+#define KEY_TIMEMACHINE_LOCK 21
 
 void setConfigDefaults();
 

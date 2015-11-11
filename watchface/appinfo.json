@@ -18,7 +18,10 @@
     "appKeys": {
         "KEY_ANIMATION": 0,
         "KEY_DESTINATION": 1,
-        "KEY_TIMEMACHINE": 2
+        "KEY_DESTINATION_USE64": 11,
+        "KEY_DESTINATION_H": 12,
+        "KEY_TIMEMACHINE": 2,
+        "KEY_TIMEMACHINE_LOCK": 21
     },
     "resources": {
         "media": [
